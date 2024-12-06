@@ -167,9 +167,9 @@ impl Debug for Headers {
         f.debug_map()
             .entries(self.0.iter().map(|(name, value)| {
                 if matching_ignore_ascii_case(name.as_str(), AUTHORIZATION.as_str()) {
-                    (name, value)
-                } else {
                     (name, &redacted)
+                } else {
+                    (name, value)
                 }
             }))
             .finish()?;
