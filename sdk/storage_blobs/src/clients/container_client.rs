@@ -1,4 +1,9 @@
-use crate::{clients::*, container::operations::*, prelude::PublicAccess};
+use crate::{
+    blob::{operations::BlobBatchBuilder, BlobBatchOperations},
+    clients::*,
+    container::operations::*,
+    prelude::PublicAccess,
+};
 use azure_core::{
     error::{Error, ErrorKind},
     headers::Headers,
@@ -111,6 +116,10 @@ impl ContainerClient {
 
     pub fn blob_client<BN: Into<String>>(&self, blob_name: BN) -> BlobClient {
         BlobClient::new(self.clone(), blob_name.into())
+    }
+
+    pub fn blob_batch<BN: Into<String>>(&self) -> BlobBatchBuilder {
+        BlobBatchBuilder::new(self.clone(), BlobBatchOperations::new())
     }
 
     pub fn service_client(&self) -> BlobServiceClient {

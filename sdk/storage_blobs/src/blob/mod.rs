@@ -1,7 +1,9 @@
+mod blob_batch_operations;
 mod lease_blob_options;
 pub mod operations;
 mod source_content_md5;
 pub use source_content_md5::*;
+mod batch_res_type;
 mod blob_block_type;
 mod blob_block_with_size;
 mod block_list;
@@ -9,6 +11,8 @@ mod block_list_type;
 mod block_with_size_list;
 mod page_range_list;
 
+pub(crate) use batch_res_type::ResType;
+pub(crate) use blob_batch_operations::BlobBatchOperations;
 pub use blob_block_type::BlobBlockType;
 pub use blob_block_with_size::BlobBlockWithSize;
 pub use block_list::BlockList;

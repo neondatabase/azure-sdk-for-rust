@@ -1,5 +1,6 @@
 mod acquire_lease;
 mod append_block;
+mod blob_batch;
 mod break_lease;
 mod change_lease;
 mod clear_page;
@@ -32,6 +33,7 @@ mod snapshot_blob;
 
 pub use acquire_lease::*;
 pub use append_block::*;
+pub use blob_batch::*;
 pub use break_lease::*;
 pub use change_lease::*;
 pub use clear_page::*;
