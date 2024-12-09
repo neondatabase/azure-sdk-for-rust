@@ -118,7 +118,7 @@ impl ContainerClient {
         BlobClient::new(self.clone(), blob_name.into())
     }
 
-    pub fn blob_batch<BN: Into<String>>(&self) -> BlobBatchBuilder {
+    pub fn blob_batch(&self) -> BlobBatchBuilder {
         BlobBatchBuilder::new(self.clone(), BlobBatchOperations::new())
     }
 
