@@ -3,10 +3,15 @@ use crate::{
 };
 use azure_core::{
     auth::{AccessToken, Secret, TokenCredential},
+    base64,
     error::{ErrorKind, ResultExt},
     Error, HttpClient,
 };
-use std::{str, sync::Arc, time::Duration};
+use std::{
+    str,
+    sync::Arc,
+    time::{Duration, Instant, SystemTime},
+};
 use time::OffsetDateTime;
 use url::Url;
 
@@ -28,6 +33,7 @@ pub struct WorkloadIdentityCredential {
     client_id: String,
     token: Secret,
     cache: TokenCache,
+    expiration: Option<SystemTime>,
 }
 
 impl WorkloadIdentityCredential {
@@ -42,13 +48,17 @@ impl WorkloadIdentityCredential {
     where
         T: Into<Secret>,
     {
+        let token = token.into();
+        let expiration = parse_expiration(&token);
+
         Self {
             http_client,
             authority_host,
             tenant_id,
             client_id,
-            token: token.into(),
+            token,
             cache: TokenCache::new(),
+            expiration,
         }
     }
 
@@ -147,4 +157,28 @@ impl TokenCredential for WorkloadIdentityCredential {
     async fn clear_cache(&self) -> azure_core::Result<()> {
         self.cache.clear().await
     }
+}
+
+/// Assume the token is a JWT and try extract the `exp` field.
+fn parse_expiration(token: &Secret) -> Option<SystemTime> {
+    #[derive(serde::Deserialize)]
+    struct Payload {
+        /// <https://datatracker.ietf.org/doc/html/rfc7519#section-4.1.4>.
+        ///
+        /// A JSON numeric value representing the number of seconds from
+        /// 1970-01-01T00:00:00Z UTC until the specified UTC date/time
+        exp: u64,
+    }
+
+    // split the JWT into the 3 main components. `<header>.<payload>.<signature>`
+    let (body, _sig) = token.secret().rsplit_once('.')?;
+    let (_header, payload) = body.rsplit_once('.')?;
+
+    // base64 decode the payload.
+    let payload = base64::decode_url_safe(payload).ok()?;
+
+    // json parse the payload, assuming there is an `exp: u64` field.
+    let payload = serde_json::from_slice::<Payload>(&payload).ok()?;
+
+    SystemTime::UNIX_EPOCH.checked_add(Duration::from_secs(payload.exp))
 }
