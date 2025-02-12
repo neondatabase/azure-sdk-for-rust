@@ -1,0 +1,10 @@
+# Don't allow people to merge changes to these generated files, because the result
+# may be invalid.  You need to run "cargo update" again.
+Cargo.lock merge=binary
+
+# Use unix line endings everywhere, even on Windows
+* text=auto eol=lf
+services/mgmt/**/src/**/*.rs linguist-generated=true
+services/mgmt/**/Cargo.toml linguist-generated=true
+.github/workflows/check-all-services.yml linguist-generated=true
+.github/workflows/publish-services.yml linguist-generated=true
