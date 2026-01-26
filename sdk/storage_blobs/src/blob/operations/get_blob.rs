@@ -45,7 +45,7 @@ impl GetBlobBuilder {
                 }
 
                 headers.add(this.lease_id);
-                headers.add(this.encryption_key.as_ref());
+                headers.add(this.encryption_key.clone());
                 headers.add(this.if_modified_since);
                 headers.add(this.if_match.clone());
                 headers.add(this.if_tags.clone());
