@@ -9,6 +9,7 @@ operation! {
     block_id: BlockId,
     body: Body,
     ?hash: Hash,
+    ?encryption_key: CPKInfo,
     ?lease_id: LeaseId
 }
 
@@ -21,6 +22,8 @@ impl PutBlockBuilder {
             url.query_pairs_mut().append_pair("comp", "block");
 
             let mut headers = Headers::new();
+            headers.add(self.hash);
+            headers.add(self.encryption_key);
             headers.add(self.lease_id);
 
             let mut request = BlobClient::finalize_request(

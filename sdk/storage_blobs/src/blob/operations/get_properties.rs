@@ -5,6 +5,7 @@ use time::OffsetDateTime;
 operation! {
     GetProperties,
     client: BlobClient,
+    ?encryption_key: CPKInfo,
     ?if_modified_since: IfModifiedSinceCondition,
     ?if_match: IfMatchCondition,
     ?if_tags: IfTags,
@@ -20,6 +21,7 @@ impl GetPropertiesBuilder {
             self.blob_versioning.append_to_url_query(&mut url);
 
             let mut headers = Headers::new();
+            headers.add(self.encryption_key);
             headers.add(self.lease_id);
             headers.add(self.if_modified_since);
             headers.add(self.if_match);

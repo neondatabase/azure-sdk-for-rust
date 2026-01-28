@@ -18,6 +18,7 @@ operation! {
     ?metadata: Metadata,
     ?access_tier: AccessTier,
     ?tags: Tags,
+    ?encryption_key: CPKInfo,
     ?lease_id: LeaseId,
     ?if_modified_since: IfModifiedSinceCondition,
     ?if_match: IfMatchCondition,
@@ -57,6 +58,7 @@ impl PutBlockListBuilder {
                 }
             }
             headers.add(self.access_tier);
+            headers.add(self.encryption_key);
             headers.add(self.lease_id);
             headers.add(self.if_modified_since);
             headers.add(self.if_match);
