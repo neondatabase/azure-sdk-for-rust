@@ -18,6 +18,7 @@ mod encryption_key;
 mod encryption_scope;
 mod hash;
 mod rehydrate_policy;
+mod source_encryption_key;
 mod tags;
 
 pub use access_tier::AccessTier;
@@ -38,6 +39,7 @@ pub use encryption_key::CPKInfo;
 pub use encryption_scope::EncryptionScope;
 pub use hash::Hash;
 pub use rehydrate_policy::RehydratePriority;
+pub use source_encryption_key::SourceCPKInfo;
 pub use tags::Tags;
 
 use std::str::FromStr;

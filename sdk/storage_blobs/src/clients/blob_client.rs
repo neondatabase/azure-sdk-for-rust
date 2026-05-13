@@ -131,6 +131,12 @@ impl BlobClient {
         CopyBlobFromUrlBuilder::new(self.clone(), copy_source)
     }
 
+    /// Create a block blob by synchronously fetching content from a source URL.
+    /// Supports source customer-provided encryption keys for server-side re-encryption.
+    pub fn put_blob_from_url(&self, copy_source: Url) -> PutBlobFromUrlBuilder {
+        PutBlobFromUrlBuilder::new(self.clone(), copy_source)
+    }
+
     /// Create a lease on the blob to lock for write and delete operations.
     pub fn acquire_lease<LD: Into<LeaseDuration>>(
         &self,
