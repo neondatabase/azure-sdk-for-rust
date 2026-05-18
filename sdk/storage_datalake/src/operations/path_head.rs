@@ -48,6 +48,13 @@ pub struct HeadPathResponse {
     pub last_modified: OffsetDateTime,
     pub properties: Option<Properties>,
     pub acl: Option<String>,
+    /// `x-ms-encryption-context` — opaque, base64-encoded on the wire.
+    /// The DFS endpoint serves this without requiring the CPK key in
+    /// the request (unlike the blob endpoint), which is the typical
+    /// reason a caller invokes `head().action(GetStatus)` on an
+    /// encrypted blob. Returned as the raw base64 string; callers
+    /// decode as needed.
+    pub encryption_context: Option<String>,
 }
 
 impl HeadPathResponse {
@@ -62,6 +69,7 @@ impl HeadPathResponse {
             content_type: headers.get_optional_as(&headers::CONTENT_TYPE)?,
             properties: headers.get_optional_as(&headers::PROPERTIES)?,
             acl: headers.get_optional_string(&headers::ACL),
+            encryption_context: headers.get_optional_string(&headers::ENCRYPTION_CONTEXT),
         })
     }
 }

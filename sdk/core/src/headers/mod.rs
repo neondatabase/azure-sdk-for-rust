@@ -391,6 +391,7 @@ pub const USER_AGENT: HeaderName = HeaderName::from_static("user-agent");
 pub const VERSION: HeaderName = HeaderName::from_static("x-ms-version");
 pub const WWW_AUTHENTICATE: HeaderName = HeaderName::from_static("www-authenticate");
 pub const ENCRYPTION_ALGORITHM: HeaderName = HeaderName::from_static("x-ms-encryption-algorithm");
+pub const ENCRYPTION_CONTEXT: HeaderName = HeaderName::from_static("x-ms-encryption-context");
 pub const ENCRYPTION_KEY: HeaderName = HeaderName::from_static("x-ms-encryption-key");
 pub const ENCRYPTION_KEY_SHA256: HeaderName = HeaderName::from_static("x-ms-encryption-key-sha256");
 pub const SOURCE_ENCRYPTION_ALGORITHM: HeaderName =
