@@ -30,6 +30,7 @@ mod set_metadata;
 mod set_properties;
 mod set_tags;
 mod snapshot_blob;
+mod undelete_blob;
 
 pub use acquire_lease::*;
 pub use append_block::*;
@@ -63,3 +64,4 @@ pub use set_metadata::*;
 pub use set_properties::*;
 pub use set_tags::*;
 pub use snapshot_blob::*;
+pub use undelete_blob::*;

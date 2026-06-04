@@ -165,6 +165,12 @@ impl BlobClient {
         DeleteBlobVersionBuilder::new(self.clone(), version_id)
     }
 
+    /// Restore a soft-deleted blob, reviving all of its soft-deleted versions
+    /// and snapshots. Requires a storage account with soft delete enabled.
+    pub fn undelete(&self) -> UndeleteBlobBuilder {
+        UndeleteBlobBuilder::new(self.clone())
+    }
+
     /* Operations specific to certain blob types */
 
     /// Creates a new block to be committed as part of a block blob.
